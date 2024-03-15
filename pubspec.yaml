@@ -38,6 +38,7 @@ dependencies:
   webview_flutter: ^4.5.0
   url_launcher: ^6.2.4
   lottie: ^2.7.0
+  awesome_dialog: ^3.2.0
 
 dev_dependencies:
   flutter_test:

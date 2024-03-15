@@ -1,5 +1,5 @@
-import 'package:car_app/home.dart';
 import 'package:car_app/onbord_model.dart';
+import 'package:car_app/welcome_page.dart';
 import 'package:flutter/material.dart';
 
 class OnBoradingScreenPage extends StatefulWidget {
@@ -102,7 +102,7 @@ class _OnBoradingScreenPageState extends State<OnBoradingScreenPage> {
                 onPressed: () {
                   if (isLast) {
                     Navigator.of(context).pushReplacement(MaterialPageRoute(
-                      builder: (_) => const HomePageScreen(),
+                      builder: (_) => const WelcomePage(),
                     ));
                   } else {
                     c.nextPage(
