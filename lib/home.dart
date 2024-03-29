@@ -26,7 +26,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
   }
 
   void MercUrl() async {
-    const url = 'https://www.mercedes-amg.com/en/home.html';
+    const url = 'https://www.cardekho.com/cars/Mercedes-Benz';
     if (await canLaunchUrl(Uri.parse(url))) {
       await launchUrl(Uri.parse(url));
     } else {
