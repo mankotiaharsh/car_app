@@ -39,6 +39,10 @@ dependencies:
   url_launcher: ^6.2.4
   lottie: ^2.7.0
   awesome_dialog: ^3.2.0
+  firebase_core: ^2.15.0
+  firebase_messaging: ^14.6.5
+  flutter_local_notifications: ^15.1.0+1
+  shared_preferences: ^2.2.0
 
 dev_dependencies:
   flutter_test:

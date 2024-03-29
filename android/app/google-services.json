@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "25392166897",
+    "project_id": "gadiwale-ad227",
+    "storage_bucket": "gadiwale-ad227.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:25392166897:android:9112cb2f7741ac3d7ff650",
+        "android_client_info": {
+          "package_name": "com.gadiWale"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXIR_Wa_FNgNXjEA76_iv7L_BlMGBONrQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
