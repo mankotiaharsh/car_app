@@ -2,7 +2,7 @@ import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:car_app/Details/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-
+import 'package:firebase_database/firebase_database.dart';
 
 class SignInPage extends StatefulWidget {
   const SignInPage({super.key});
@@ -20,6 +20,7 @@ class _SignInPageState extends State<SignInPage> {
       dialogType: DialogType.success,
       animType: AnimType.topSlide,
       btnOkOnPress: () {
+        uploadCustomerData();
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const LoginPage()));
       },
@@ -82,6 +83,8 @@ class _SignInPageState extends State<SignInPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
+
+  DatabaseReference dbRef = FirebaseDatabase.instance.ref();
 
   @override
   Widget build(BuildContext context) {
@@ -203,9 +206,6 @@ class _SignInPageState extends State<SignInPage> {
                     } else {
                       signInShowMyDialog();
                     }
-                    print(emailController.text);
-                    print(passwordController.text);
-                    print(phoneNumberController.text);
                   },
                   child: const Text(
                     "Sign Up",
@@ -216,5 +216,24 @@ class _SignInPageState extends State<SignInPage> {
         ),
       ),
     );
+  }
+
+  void uploadCustomerData() async {
+    try {
+      Map<String, dynamic> data = {
+        "First_Name": FirstnameController.text,
+        "Last_Name": LastnameController.text,
+        "Email": emailController.text,
+        "Password": passwordController.text,
+        "Mobile_number": phoneNumberController.text.toString()
+      };
+      dbRef.child("Customer_Details").push().set(data).then((value) {
+        Navigator.of(context).pop();
+      }).onError((error, stackTrace) {
+        print("error $error");
+      });
+    } on Exception catch (e) {
+      print("Exception in uploadToFirestore: $e");
+    }
   }
 }

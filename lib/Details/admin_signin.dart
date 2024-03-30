@@ -1,8 +1,8 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:car_app/Details/login_page.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-
 
 class NgoSignInScreen extends StatefulWidget {
   const NgoSignInScreen({super.key});
@@ -16,6 +16,8 @@ class _NgoSignInScreenState extends State<NgoSignInScreen> {
   TextEditingController ngo_owner = TextEditingController();
   TextEditingController ngo_location = TextEditingController();
 
+  DatabaseReference dbRef = FirebaseDatabase.instance.ref();
+
   void signInShowMyDialog() {
     AwesomeDialog(
       context: context,
@@ -24,6 +26,7 @@ class _NgoSignInScreenState extends State<NgoSignInScreen> {
       dialogType: DialogType.success,
       animType: AnimType.topSlide,
       btnOkOnPress: () {
+        uploadAdminData();
         Navigator.push(context,
             MaterialPageRoute(builder: (context) => const LoginPage()));
       },
@@ -162,5 +165,22 @@ class _NgoSignInScreenState extends State<NgoSignInScreen> {
         ),
       ),
     );
+  }
+
+  void uploadAdminData() async {
+    try {
+      Map<String, dynamic> data = {
+        "Company_Name": ngo_name.text,
+        "Owner_Name": ngo_owner.text,
+        "Address": ngo_location.text,
+      };
+      dbRef.child("Admin_Details").push().set(data).then((value) {
+        Navigator.of(context).pop();
+      }).onError((error, stackTrace) {
+        print("error $error");
+      });
+    } on Exception catch (e) {
+      print("Exception in uploadToFirestore: $e");
+    }
   }
 }
