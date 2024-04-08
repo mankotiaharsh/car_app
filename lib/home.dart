@@ -34,6 +34,15 @@ class _HomePageScreenState extends State<HomePageScreen> {
     }
   }
 
+  void NewsCars() async {
+    const url = 'https://www.carversal.com/';
+    if (await canLaunchUrl(Uri.parse(url))) {
+      await launchUrl(Uri.parse(url));
+    } else {
+      throw 'Could not launch Study Material';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -56,6 +65,19 @@ class _HomePageScreenState extends State<HomePageScreen> {
               ],
             ),
           ),
+          actions: [
+            Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GestureDetector(
+                  onTap: () {
+                    NewsCars();
+                  },
+                  child: const Icon(
+                    Icons.newspaper_outlined,
+                    size: 20,
+                  ),
+                )),
+          ],
         ),
         body: SingleChildScrollView(
           child: Column(
