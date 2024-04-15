@@ -57,6 +57,26 @@ class _SignInPageState extends State<SignInPage> {
     ).show();
   }
 
+  void confirmPasswordShowMyDialog() {
+    AwesomeDialog(
+      context: context,
+      title: "Error!",
+      desc: "Please enter your password again.",
+      dialogType: DialogType.error,
+      animType: AnimType.topSlide,
+    ).show();
+  }
+
+  void notConfirmedDialog() {
+    AwesomeDialog(
+      context: context,
+      title: "Error!",
+      desc: "Passwords do not match.",
+      dialogType: DialogType.error,
+      animType: AnimType.topSlide,
+    ).show();
+  }
+
   void firstNameShowMyDialog() {
     AwesomeDialog(
       context: context,
@@ -77,11 +97,12 @@ class _SignInPageState extends State<SignInPage> {
     ).show();
   }
 
-  TextEditingController FirstnameController = TextEditingController();
-  TextEditingController LastnameController = TextEditingController();
+  TextEditingController firstnameController = TextEditingController();
+  TextEditingController lastnameController = TextEditingController();
   TextEditingController usernameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
 
   DatabaseReference dbRef = FirebaseDatabase.instance.ref();
@@ -116,7 +137,7 @@ class _SignInPageState extends State<SignInPage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
-                controller: FirstnameController,
+                controller: firstnameController,
                 decoration: const InputDecoration(
                     hintText: 'Firstname',
                     prefixIcon: Icon(Icons.person),
@@ -129,7 +150,7 @@ class _SignInPageState extends State<SignInPage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
-                controller: LastnameController,
+                controller: lastnameController,
                 decoration: const InputDecoration(
                     hintText: 'Lastname',
                     prefixIcon: Icon(Icons.person),
@@ -170,6 +191,20 @@ class _SignInPageState extends State<SignInPage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: TextField(
+                controller: confirmPasswordController,
+                obscureText: true,
+                decoration: const InputDecoration(
+                    hintText: 'Confirm Password',
+                    prefixIcon: Icon(Icons.lock_outline),
+                    labelText: 'Confirm Password',
+                    border: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.green, width: 2))),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
                 keyboardType: TextInputType.number,
                 controller: phoneNumberController,
                 decoration: const InputDecoration(
@@ -193,14 +228,19 @@ class _SignInPageState extends State<SignInPage> {
                       foregroundColor: Colors.black),
                   onPressed: () {
                     print("Sign In Tapped!");
-                    if (FirstnameController.text.isEmpty) {
+                    if (firstnameController.text.isEmpty) {
                       firstNameShowMyDialog();
-                    } else if (LastnameController.text.isEmpty) {
+                    } else if (lastnameController.text.isEmpty) {
                       LastNameShowMyDialog();
                     } else if (emailController.text.isEmpty) {
                       emailShowMyDialog();
                     } else if (passwordController.text.isEmpty) {
                       passwordShowMyDialog();
+                    } else if (confirmPasswordController.text.isEmpty) {
+                      confirmPasswordShowMyDialog();
+                    } else if (passwordController.text !=
+                        confirmPasswordController.text) {
+                      notConfirmedDialog();
                     } else if (phoneNumberController.text.isEmpty) {
                       phoneShowMyDialog();
                     } else {
@@ -221,8 +261,8 @@ class _SignInPageState extends State<SignInPage> {
   void uploadCustomerData() async {
     try {
       Map<String, dynamic> data = {
-        "First_Name": FirstnameController.text,
-        "Last_Name": LastnameController.text,
+        "First_Name": firstnameController.text,
+        "Last_Name": lastnameController.text,
         "Email": emailController.text,
         "Password": passwordController.text,
         "Mobile_number": phoneNumberController.text.toString()

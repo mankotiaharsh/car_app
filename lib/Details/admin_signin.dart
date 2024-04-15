@@ -15,6 +15,10 @@ class _NgoSignInScreenState extends State<NgoSignInScreen> {
   TextEditingController ngo_name = TextEditingController();
   TextEditingController ngo_owner = TextEditingController();
   TextEditingController ngo_location = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
+  TextEditingController phoneNumberController = TextEditingController();
 
   DatabaseReference dbRef = FirebaseDatabase.instance.ref();
 
@@ -58,6 +62,56 @@ class _NgoSignInScreenState extends State<NgoSignInScreen> {
       context: context,
       title: "Error!",
       desc: "Please enter Shop Address.",
+      dialogType: DialogType.error,
+      animType: AnimType.topSlide,
+    ).show();
+  }
+
+  void emailShowMyDialog() {
+    AwesomeDialog(
+      context: context,
+      title: "Error!",
+      desc: "Please enter your email.",
+      dialogType: DialogType.error,
+      animType: AnimType.topSlide,
+    ).show();
+  }
+
+  void passwordShowMyDialog() {
+    AwesomeDialog(
+      context: context,
+      title: "Error!",
+      desc: "Please enter your password.",
+      dialogType: DialogType.error,
+      animType: AnimType.topSlide,
+    ).show();
+  }
+
+  void confirmPasswordShowMyDialog() {
+    AwesomeDialog(
+      context: context,
+      title: "Error!",
+      desc: "Please enter your password again.",
+      dialogType: DialogType.error,
+      animType: AnimType.topSlide,
+    ).show();
+  }
+
+  void notConfirmedDialog() {
+    AwesomeDialog(
+      context: context,
+      title: "Error!",
+      desc: "Passwords do not match.",
+      dialogType: DialogType.error,
+      animType: AnimType.topSlide,
+    ).show();
+  }
+
+  void phoneShowMyDialog() {
+    AwesomeDialog(
+      context: context,
+      title: "Error!",
+      desc: "Please enter your phone number.",
       dialogType: DialogType.error,
       animType: AnimType.topSlide,
     ).show();
@@ -131,6 +185,62 @@ class _NgoSignInScreenState extends State<NgoSignInScreen> {
                         borderSide: BorderSide(color: Colors.green, width: 2))),
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: emailController,
+                keyboardType: TextInputType.emailAddress,
+                decoration: const InputDecoration(
+                    hintText: 'Eg: abc@gmail.com',
+                    prefixIcon: Icon(Icons.email_outlined),
+                    labelText: 'Email',
+                    border: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.green, width: 2))),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: passwordController,
+                obscureText: true,
+                decoration: const InputDecoration(
+                    hintText: 'Password',
+                    prefixIcon: Icon(Icons.lock_outline),
+                    labelText: 'Password',
+                    border: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.green, width: 2))),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: confirmPasswordController,
+                obscureText: true,
+                decoration: const InputDecoration(
+                    hintText: 'Confirm Password',
+                    prefixIcon: Icon(Icons.lock_outline),
+                    labelText: 'Confirm Password',
+                    border: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.green, width: 2))),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                keyboardType: TextInputType.number,
+                controller: phoneNumberController,
+                decoration: const InputDecoration(
+                    hintText: 'Phone number',
+                    prefixIcon: Icon(Icons.phone),
+                    labelText: 'Phone number',
+                    border: OutlineInputBorder(),
+                    focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.green, width: 2))),
+              ),
+            ),
             Center(
                 child: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -151,6 +261,17 @@ class _NgoSignInScreenState extends State<NgoSignInScreen> {
                         ownerShowMyDialog();
                       } else if (ngo_location.text.isEmpty) {
                         locationShowMyDialog();
+                      } else if (emailController.text.isEmpty) {
+                        emailShowMyDialog();
+                      } else if (passwordController.text.isEmpty) {
+                        passwordShowMyDialog();
+                      } else if (confirmPasswordController.text.isEmpty) {
+                        confirmPasswordShowMyDialog();
+                      } else if (passwordController.text !=
+                          confirmPasswordController.text) {
+                        notConfirmedDialog();
+                      } else if (phoneNumberController.text.isEmpty) {
+                        phoneShowMyDialog();
                       } else {
                         signInShowMyDialog();
                       }
@@ -173,6 +294,9 @@ class _NgoSignInScreenState extends State<NgoSignInScreen> {
         "Company_Name": ngo_name.text,
         "Owner_Name": ngo_owner.text,
         "Address": ngo_location.text,
+        "Email": emailController.text,
+        "Password": passwordController.text,
+        "Mobile_number": phoneNumberController.text.toString()
       };
       dbRef.child("Admin_Details").push().set(data).then((value) {
         Navigator.of(context).pop();
