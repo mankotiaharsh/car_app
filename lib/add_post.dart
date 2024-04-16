@@ -1,6 +1,5 @@
 import 'dart:io';
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:car_app/admin_welcome_page.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -53,7 +52,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
   // final databaseReference = FirebaseDatabase.instance.ref();
   // DatabaseReference? postsReference;
 
-  DatabaseReference dbRef = FirebaseDatabase.instance.ref("Post_Details");
+  DatabaseReference dbRef = FirebaseDatabase.instance.ref();
 
   //     FirebaseDatabase.instance.ref().child("Pet_Details");
 
@@ -478,35 +477,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
                 width: MediaQuery.of(context).size.width,
                 child: ElevatedButton(
                   onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: const Text("Confirmation"),
-                          content: const Text(
-                              "Are you sure you want to post this information?"),
-                          actions: [
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                              },
-                              child: const Text("Cancel"),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pop(context);
-                                uploadToFirbase();
-                              },
-                              child: GestureDetector(
-                                  onTap: () {
-                                    postDoneSuccessfully();
-                                  },
-                                  child: const Text("Post")),
-                            ),
-                          ],
-                        );
-                      },
-                    );
+                    uploadToFirbase();
                   },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
