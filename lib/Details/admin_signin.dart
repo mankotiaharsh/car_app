@@ -3,7 +3,6 @@ import 'package:car_app/Details/login_page.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class NgoSignInScreen extends StatefulWidget {
   const NgoSignInScreen({super.key});
@@ -22,11 +21,6 @@ class _NgoSignInScreenState extends State<NgoSignInScreen> {
   TextEditingController phoneNumberController = TextEditingController();
 
   DatabaseReference dbRef = FirebaseDatabase.instance.ref();
-
-  Future<void> saveData() async {
-    final SharedPreferences preferences = await SharedPreferences.getInstance();
-    await preferences.setString("Owner name", ngo_owner.text);
-  }
 
   void signInShowMyDialog() {
     AwesomeDialog(
@@ -260,7 +254,6 @@ class _NgoSignInScreenState extends State<NgoSignInScreen> {
                         backgroundColor: Colors.orange,
                         foregroundColor: Colors.black),
                     onPressed: () {
-                      saveData();
                       print("Sign In Tapped!");
                       if (ngo_name.text.isEmpty) {
                         nameShowMyDialog();
